@@ -1,11 +1,12 @@
 import User from '../Models/AuthModel.js';
 import bcrypt from 'bcryptjs';
+import { Errorhandler } from '../Utills/Error.js';
 
 export const signup = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
         if (!username || !email || !password) {
-            return res.status(400).json({ message: 'Please fill all fields' });
+            return next(Errorhandler(400, 'Please fill all the fields'));
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const newUser = new User({ username, email, password:hashedPassword });
@@ -13,7 +14,7 @@ export const signup = async (req, res, next) => {
         res.status(200).json({ message: 'User created successfully' });
 
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        next(error);
     }
 };
 

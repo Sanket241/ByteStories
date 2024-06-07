@@ -14,6 +14,12 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
+app.use((err, req, res, next)=>{
+    const StatusCode = err.StatusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    res.status(StatusCode).json({message});
+})
+
 const start=async()=>{
 try {
     await Mongodb(process.env.MONGO_URL);
