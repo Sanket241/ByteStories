@@ -10,8 +10,8 @@ const Header = () => {
     <>
       <Navbar className='border-b-2'>
         <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dARK:TEXT-WHITE' >
-          <span className='text-gray-500' >Code</span>
-          <span className='text-gray-700'>Blog</span>
+          <span className='text-gray-500' >Byte</span>
+          <span className='text-gray-700'>Stories</span>
         </Link>
         <form className=''>
           <TextInput
