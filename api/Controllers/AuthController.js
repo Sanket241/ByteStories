@@ -1,7 +1,15 @@
-
+import User from '../Models/AuthModel.js';
 
 export const signup = async (req, res, next) => {
+    const {username, email, password} = req.body
+    const user = new User({
+        username,
+        email,
+        password
+    });
+    await user.save();
     res.send('Signup route');
+    
     console.log('Signup route');
 };
 
