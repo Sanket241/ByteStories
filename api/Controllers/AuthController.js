@@ -1,6 +1,7 @@
 import User from '../Models/AuthModel.js';
 import bcrypt from 'bcryptjs';
 import { Errorhandler } from '../Utills/Error.js';
+import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
     try {
@@ -19,8 +20,25 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-    res.send('Signin route');
-    console.log('Signin route');
+  try {
+    const {email, password} = req.body;
+    if(!email || !password){
+      return next(Errorhandler(400, 'Please fill all the fields'));
+    }
+    const check = await User.findOne({email})
+    if(!check){
+      return next(Errorhandler(400, 'Invalid credentials'));
+    }
+    const isMatch = await bcrypt.compare(password, check.password);
+    if(!isMatch){
+      return next(Errorhandler(400, 'Invalid credentials'));
+    }
+    const token = jwt.sign({email:check.email, id:check._id}, process.env.JWT_SECRET, {expiresIn:'1h'})
+
+    res.status(200).cookie('access_token',token, {httpOnly:true}).json({message: 'User logged in successfully', token});
+  } catch (error) {
+    next(error)
+  }
 };
 
 export const google = async (req, res, next) => {
