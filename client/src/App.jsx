@@ -7,6 +7,7 @@ import Project from './Pages/Projects'
 import About from './Pages/About'
 import Error from './Pages/Error'
 import Header from './Component/Header'
+import Footer from './Component/Footer'
 const App = () => {
   return (
     <>
@@ -21,8 +22,7 @@ const App = () => {
           <Route path="/*" element={<Error />} />
 
         </Routes>
-
-
+        <Footer />
       </BrowserRouter>
 
     </>
