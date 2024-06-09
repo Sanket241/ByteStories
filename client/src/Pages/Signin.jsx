@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { signinSuccess, signinStart, signinFailure } from '../redux/userSlice/userSlice'
+import {useDispatch, useSelector} from 'react-redux'
+
 const Signin = () => {
 
   const navigate = useNavigate()
-
-  const [errormessage, setErrormessage] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
+  const {loading, error:errorMessage} = useSelector((state) => state.user)
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -23,9 +25,9 @@ const Signin = () => {
     try {
       e.preventDefault();
       if (!user.email || !user.password) {
-        return setErrormessage('Please fill all the fields')
+        return dispatch(signinFailure('Please fill all the fields'));
         }
-      setLoading(true);
+      dispatch(signinStart())
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -34,16 +36,16 @@ const Signin = () => {
         body: JSON.stringify(user),
       })
       const data = await res.json()
-      if (data.success == false) {
-        return setErrormessage(data.message)
+      if (data.success === false) {
+        dispatch(signinFailure(data.message))
       }
-      setLoading(false);
+      
       if(res.ok ){
+        dispatch(signinSuccess(data));
         navigate('/')
       }
       } catch (error) {
-        setErrormessage(error.message)
-        setLoading(false);
+       dispatch(signinFailure(error.message))
     }
 
 
@@ -69,7 +71,7 @@ const Signin = () => {
               </div>
               <div >
                 <Label value="Your Password" />
-                <TextInput type="text" placeholder='Password' id="passsword" name="password" value={user.password} onChange={handleChange} />
+                <TextInput type="text" placeholder='Password' id="password" name="password" value={user.password} onChange={handleChange} />
               </div>
               <Button>Sign in with Google</Button>
               <Button type="submit" disabled={loading} >
@@ -89,8 +91,8 @@ const Signin = () => {
               <NavLink to='/signup' className='text-blue-500'>Sign Up</NavLink>
             </div>
             {
-              errormessage && (
-                <Alert className='mt-5' color='failure'>{errormessage}</Alert>
+              errorMessage && (
+                <Alert className='mt-5' color='failure'>{errorMessage}</Alert>
               )
             }
           </div>
