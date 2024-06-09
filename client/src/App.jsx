@@ -7,6 +7,8 @@ import Project from './Pages/Projects'
 import About from './Pages/About'
 import Error from './Pages/Error'
 import Header from './Component/Header'
+import PrivacyandPolicy from './Pages/PrivacyandPolicy'
+import TermsandCondition from './Pages/TermsandCondition'
 import Footer from './Component/Footer'
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
           <Route path="/signin" element={<Signin />} />
           <Route path="/projects" element={<Project />} />
           <Route path="/about" element={<About />} />
+          <Route path="/privacy-policy" element={<PrivacyandPolicy />} />
+          <Route path="/terms" element={<TermsandCondition />} />
           <Route path="/*" element={<Error />} />
 
         </Routes>
