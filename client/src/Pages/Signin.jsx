@@ -3,6 +3,7 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { signinSuccess, signinStart, signinFailure } from '../redux/userSlice/userSlice'
 import {useDispatch, useSelector} from 'react-redux'
+import Oauth from '../Component/Oauth'
 
 const Signin = () => {
 
@@ -73,7 +74,6 @@ const Signin = () => {
                 <Label value="Your Password" />
                 <TextInput type="text" placeholder='Password' id="password" name="password" value={user.password} onChange={handleChange} />
               </div>
-              <Button>Sign in with Google</Button>
               <Button type="submit" disabled={loading} >
                 {
                   loading ? (
@@ -85,6 +85,7 @@ const Signin = () => {
                   ) : 'Sign in'
                 }
               </Button>
+              <Oauth />
             </form>
             <div className="flex gap-2 text-sm mt-5">
               <span>Don't Have an account?</span>
