@@ -47,7 +47,7 @@ const Header = () => {
                   <span className='block text-sm'>{currentUser.username}</span>
                   <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
                 </Dropdown.Header>
-                <NavLink to='/dashboard=profile'>
+                <NavLink to='/dashboard?tab=profile'>
                   <Dropdown.Item>Profile</Dropdown.Item>
                 </NavLink>
                 <Dropdown.Divider />
