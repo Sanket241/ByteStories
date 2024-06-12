@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import userReducer from './userSlice/userSlice'
+import themeReducer from './theme/themeSlice';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
-import themeReducer from './Theme/themeSlice';
 
 const rootReducer = combineReducers({
     user: userReducer,
