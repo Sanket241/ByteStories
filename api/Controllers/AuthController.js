@@ -16,7 +16,7 @@ export const signup = async (req, res, next) => {
         if (!username || !email || !password) {
             return next(Errorhandler(400, 'Please fill all the fields'));
         }
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = bcrypt.hashSync(password, 12);
         const newUser = new User({ username, email, password:hashedPassword });
         await newUser.save();
         res.status(200).json({ message: 'User created successfully' });
@@ -29,22 +29,23 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   try {
     const {email, password} = req.body;
-    if(!email || !password){
+    if(!email || !password || email === '' || password === ''){
       return next(Errorhandler(400, 'Please fill all the fields'));
     }
     const check = await User.findOne({email})
     if(!check){
       return next(Errorhandler(400, 'Invalid credentials'));
     }
-    const isMatch = await bcrypt.compare(password, check.password);
+    const isMatch =  bcrypt.compareSync(password, check.password);
     if(!isMatch){
       return next(Errorhandler(400, 'Invalid credentials'));
     }
-    const token = jwt.sign({email:check.email, id:check._id}, process.env.JWT_SECRET, {expiresIn:'1h'})
+    const token = jwt.sign(
+      {id: check._id, isAdmin: check.isAdmin}, process.env.JWT_SECRET, {expiresIn:'1h'})
 
     const { password: pass, ...rest } = check._doc;
 
-    res.status(200).cookie('access_token',token, {httpOnly:true}).json({message: 'User logged in successfully', rest, token});
+    res.status(200).cookie('access_token',token, {httpOnly:true}).json(rest);
 
 
   } catch (error) {
@@ -72,7 +73,7 @@ export const google = async (req, res, next) => {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
-      const hashedPassword = bcrypt.hash(generatedPassword, 12);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 12);
       const newUser = new User({
         username:
           name.toLowerCase().split(' ').join('') +
