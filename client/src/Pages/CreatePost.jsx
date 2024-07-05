@@ -10,7 +10,7 @@ const CreatePost = () => {
                 <div className='flex flex-col gap-4 sm:flex-row justify-between'>
                     <TextInput type='text' placeholder='Title' required id='title' className='flex-1' />
                     <Select>
-                        <option >Choose</option>
+                        <option >Select a category</option>
                         <option value='startupstories'>Startup Stories </option>
                         <option value='technoilogies'>New Technologies</option>
                         <option value='reaserach'>New Research</option>

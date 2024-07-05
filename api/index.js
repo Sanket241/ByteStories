@@ -5,6 +5,7 @@ dotenv.config();
 import Mongodb from './db/Conn.js';
 import authRouter from './Routes/AuthRoute.js';
 import userRouter from './Routes/UserRoute.js';
+import postRouter from './Routes/PostRoute.js';
 import cors from 'cors';
 const port = process.env.PORT || 3000;
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/post', postRouter);
 
 app.use((err, req, res, next)=>{
     const StatusCode = err.StatusCode || 500;
