@@ -12,6 +12,8 @@ import Footer from './Component/Footer'
 import Error from './Pages/Error'
 import PrivateRoute from './Component/PrivateRoute'
 import Dashboards from './Pages/Dashboards'
+import AdminPrivateRoute from './Component/AdminPrivateRoute'
+import CreatePost from './Pages/CreatePost'
 const App = () => {
   return (
     <>
@@ -30,6 +32,12 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboards />} />
           
           </Route>
+
+          <Route element={<AdminPrivateRoute />} >
+          <Route path="/create-post" element={<CreatePost />} />
+          
+          </Route>
+
           <Route path="/*" element={<Error />} />
 
         </Routes>

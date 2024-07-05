@@ -46,11 +46,8 @@ const DashboardSidebar = () => {
                     <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={handlesignout} >
                         Sign Out
                     </Sidebar.Item>
-
                 </Sidebar.ItemGroup>
             </Sidebar.Items>
-
-
         </Sidebar>
     )
 }

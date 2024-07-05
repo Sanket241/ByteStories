@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
+import {NavLink} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Alert, Button, TextInput, Modal, ModalBody } from 'flowbite-react';
+import { Alert, Button, TextInput, Modal } from 'flowbite-react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../Firebase';
 import 'react-circular-progressbar/dist/styles.css';
@@ -12,7 +13,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 const DashboardProfile = () => {
   const dispatch = useDispatch();
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileurl, setImageFileurl] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
@@ -137,13 +138,13 @@ const DashboardProfile = () => {
   }
   const handlesignout = async () => {
     try {
-      const res = await fetch(`/api/user/signout`,{
-        method:'POST',
+      const res = await fetch(`/api/user/signout`, {
+        method: 'POST',
       })
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         console.log(data.message);
-      }else{
+      } else {
         dispatch(signoutSuccess());
       }
     } catch (error) {
@@ -195,7 +196,14 @@ const DashboardProfile = () => {
         <TextInput type='text' id='username' placeholder='Username' defaultValue={currentUser.username} onChange={handleChange} />
         <TextInput type='email' id='email' placeholder='Email' defaultValue={currentUser.email} onChange={handleChange} />
         <TextInput type='password' id='password' placeholder='Password' onChange={handleChange} />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' outline disabled={loading || imageFileUploading}>{loading ? 'Loading...' : 'Update'}</Button>
+        {
+          currentUser.isAdmin && (
+            <NavLink to='/create-post' >
+              <Button color='gray' type='button' className='w-full' >Create a Post</Button>
+            </NavLink>
+          )
+        }
       </form>
       <div className='text-red-500 flex justify-between'>
         <span className='cursor-pointer' onClick={() => setShowModel(true)}>Delete Account</span>
