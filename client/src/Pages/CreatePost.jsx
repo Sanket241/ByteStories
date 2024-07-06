@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { TextInput, Select, FileInput, Button } from 'flowbite-react'
+import { TextInput, Select, FileInput, Button, Alert } from 'flowbite-react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../Firebase'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useNavigate } from 'react-router-dom'
 const CreatePost = () => {
+    const navigate = useNavigate();
     const [file, setFile] = useState(null)
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
@@ -64,11 +66,10 @@ const CreatePost = () => {
             if (!res.ok) {
                 setPublishError(data.message)
             }
-            if (data.message === 'success') {
-                setPublishError(null)
-            }
+           
             if (res.ok) {
                 setPublishError(null)
+                navigate(`/post/${data.slug}`)
 
             }
         } catch (error) {
@@ -113,7 +114,10 @@ const CreatePost = () => {
                     formData.image && <img src={formData.image} alt='upload' className='w-full h-72 object-cover' />
                 }
                 <ReactQuill theme="snow" placeholder='Write something...' className='h-72 mb-12' required onChange={(value) => { setFormData({ ...formData, content: value }) }} />
-                <Button type='submit'>Submit</Button>
+                <Button type='submit'>Publish</Button>
+                {
+                    publishError && <Alert color='failure' className='text-red-500'>{publishError}</Alert>
+                }
             </form>
 
         </div>
