@@ -16,7 +16,11 @@ const DashPost = () => {
         const res = await fetch(`/api/post/getpost?userId=${currentUser._id}`)
         const data = await res.json();
         if (res.ok) {
-          setUserPost(data)
+          setUserPost(data.posts);
+          if (data.posts.length < 9) {
+            setShowMore(false)
+          }
+
         }
         console.log(data)
       } catch (error) {
@@ -29,12 +33,30 @@ const DashPost = () => {
     }
 
   }, [currentUser._id])
+  
+      const handleshowmore = async () => {
+        const startindex = userPost.length;
+        try{
+          const res = await fetch(`/api/post/getpost?userId=${currentUser._id}&startindex=${startindex}`)
+          const data = await res.json();
+          if(res.ok){
+            setUserPost((prev) => [...prev, ...data.posts]);
+            if(data.posts.length < 9){
+              setShowMore(false)
+            }
+          }
+
+        }
+        catch(error){
+          console.log(error.message)
+        }
+  }
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {
         currentUser.isAdmin && userPost.length > 0 ? (
-          <div>
+          <>
             <Table hoverable className='shadow-md'>
               <Table.Head>
                 <Table.HeadCell>Date updates</Table.HeadCell>
@@ -81,12 +103,15 @@ const DashPost = () => {
 
 
             </Table>
-          </div>
+            {
+              showMore && (<button onClick={handleshowmore} className='w-full text-teal-500 self-center text-sm py-7'> Show more </button>
+            )}
+          </>
         ) : (
-          <div>
-            <h1>You have no post yet!</h1>
 
-          </div>
+          <h1>You have no post yet!</h1>
+ 
+
         )
       }
     </div>
