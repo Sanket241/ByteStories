@@ -64,3 +64,15 @@ export const getPost = async(req,res,next)=>{
         next(error);
     }
 }
+
+export const deletePost =async(req,res,next)=>{
+  try {
+    if(!req.user.isAdmin || req.user.id !== req.params.userId){
+      return next(Errorhandler(401, 'Unauthorized Access'));
+    }
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json({message: 'Post Deleted Successfully'})
+  } catch (error) {
+    next(error)
+  }
+}

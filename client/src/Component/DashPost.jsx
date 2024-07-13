@@ -1,13 +1,15 @@
-import { Table, TableCell } from 'flowbite-react';
+import { Modal, Table, TableCell, Button, } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 const DashPost = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [userPost, setUserPost] = useState([])
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+  const [showModel, setShowModel] = useState(false);
 
   useEffect(() => {
 
@@ -33,25 +35,46 @@ const DashPost = () => {
     }
 
   }, [currentUser._id])
-  
-      const handleshowmore = async () => {
-        const startindex = userPost.length;
-        try{
-          const res = await fetch(`/api/post/getpost?userId=${currentUser._id}&startindex=${startindex}`)
-          const data = await res.json();
-          if(res.ok){
-            setUserPost((prev) => [...prev, ...data.posts]);
-            if(data.posts.length < 9){
-              setShowMore(false)
-            }
-          }
 
+  const handleshowmore = async () => {
+    const startindex = userPost.length;
+    try {
+      const res = await fetch(`/api/post/getpost?userId=${currentUser._id}&startindex=${startindex}`)
+      const data = await res.json();
+      if (res.ok) {
+        setUserPost((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 9) {
+          setShowMore(false)
         }
-        catch(error){
-          console.log(error.message)
-        }
+      }
+
+    }
+    catch (error) {
+      console.log(error.message)
+    }
   }
 
+  const handleDeletePost = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserPost((prev) =>
+          prev.filter((post) => post._id !== postIdToDelete)
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {
@@ -83,7 +106,12 @@ const DashPost = () => {
                       </TableCell>
                       <TableCell>{post.category}</TableCell>
                       <TableCell>
-                        <span className='font-medium text-red-500 hover:underline cursor-pointer'>
+                        <span
+                          onClick={() => {
+                            setShowModal(true);
+                            setPostIdToDelete(post._id);
+                          }}
+                          className='font-medium text-red-500 hover:underline cursor-pointer'>
                           Delete
                         </span>
                       </TableCell>
@@ -105,15 +133,30 @@ const DashPost = () => {
             </Table>
             {
               showMore && (<button onClick={handleshowmore} className='w-full text-teal-500 self-center text-sm py-7'> Show more </button>
-            )}
+              )}
           </>
         ) : (
 
           <h1>You have no post yet!</h1>
- 
-
         )
       }
+      <Modal show={showModel} onClose={() => setShowModel(false)} popup size='md' >
+        <Modal.Header />
+        <Modal.Body>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200mb -4 mx-auto' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>Are you sure you want to delete your account?</h3>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={handleDeletePost}>
+                Yes, I'm sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModel(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }
