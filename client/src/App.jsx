@@ -14,6 +14,7 @@ import PrivateRoute from './Component/PrivateRoute'
 import Dashboards from './Pages/Dashboards'
 import AdminPrivateRoute from './Component/AdminPrivateRoute'
 import CreatePost from './Pages/CreatePost'
+import Updatepost from './Pages/Updatepost'
 const App = () => {
   return (
     <>
@@ -35,6 +36,7 @@ const App = () => {
 
           <Route element={<AdminPrivateRoute />} >
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-post/:postId" element={<Updatepost />} />
           
           </Route>
 

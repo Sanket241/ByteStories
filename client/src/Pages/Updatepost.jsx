@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextInput, Select, FileInput, Button, Alert } from 'flowbite-react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -6,8 +6,9 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../Firebase'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 const Updatepost = () => {
+    const { postId } = useParams();
     const navigate = useNavigate();
     const [file, setFile] = useState(null)
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
@@ -15,6 +16,27 @@ const Updatepost = () => {
     const [formData, setFormData] = useState({});
     const [publishError, setPublishError] = useState(null);
     console.log(formData)
+
+    useEffect(() => {
+        try {
+            const fetchPost = async () => {
+                const res = await fetch('/api/post/getposts?postId=${postId}')
+                const data = await res.json();
+                if (!res.ok) {
+                    console.log(data.message);
+                    setPublishError(data.message)
+                    return;
+                }
+                if (res.ok) {
+                    setPublishError(null)
+                    setFormData(data.post[0]);
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }, [postId])
+
     const handleUploadimage = async () => {
         try {
             if (!file) {
@@ -66,7 +88,7 @@ const Updatepost = () => {
             if (!res.ok) {
                 setPublishError(data.message)
             }
-           
+
             if (res.ok) {
                 setPublishError(null)
                 navigate(`/post/${data.slug}`)
