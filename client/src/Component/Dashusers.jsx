@@ -29,7 +29,7 @@ const Dashusers = () => {
     if (currentUser.isAdmin) {
       fetchUsers();
     }
-  }, [currentUser._id, currentUser.isAdmin]);
+  }, [currentUser._id]);
 
   const handleShowMore = async () => {
     const startindex = users.length;
