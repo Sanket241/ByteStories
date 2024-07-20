@@ -15,6 +15,7 @@ import Dashboards from './Pages/Dashboards'
 import AdminPrivateRoute from './Component/AdminPrivateRoute'
 import CreatePost from './Pages/CreatePost'
 import Updatepost from './Pages/Updatepost'
+import Postpage from './Pages/Postpage'
 const App = () => {
   return (
     <>
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/terms" element={<TermsandCondition />} />
           <Route path="/privacy-policy" element={<PrivacyandPolicy />} />
           <Route path="/projects" element={<Project />} />
+          <Route path="/post/:postSlug" element={<Postpage />} />
 
           <Route element={<PrivateRoute />} >
           <Route path="/dashboard" element={<Dashboards />} />
