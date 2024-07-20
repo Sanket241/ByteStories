@@ -89,7 +89,7 @@ const DashboardProfile = () => {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`/api/user/update/$(currentUser._id)`, {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const DashboardProfile = () => {
     setShowModel(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/$(currentUser._id)`, {
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

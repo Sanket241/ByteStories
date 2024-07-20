@@ -1,5 +1,6 @@
 import { Errorhandler } from '../Utills/Error.js';
 import Post from '../Models/PostModel.js';
+
 export const createPost = async (req, res, next) => {
     if (!req.user.isAdmin) {
         return next(Errorhandler(401, 'Unauthorized Access'));
