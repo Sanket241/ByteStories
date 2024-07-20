@@ -13,7 +13,7 @@ const CreatePost = () => {
     const [file, setFile] = useState(null);
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({ title: '', category: '', content: '', image: '' });
     const [publishError, setPublishError] = useState(null);
     const [validationError, setValidationError] = useState(null);
 
@@ -43,7 +43,7 @@ const CreatePost = () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setImageUploadProgress(null);
                         setImageUploadError(null);
-                        setFormData({ ...formData, image: downloadURL });
+                        setFormData((prevData) => ({ ...prevData, image: downloadURL }));
                     });
                 }
             );
@@ -56,8 +56,8 @@ const CreatePost = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.title || !formData.content) {
-            setValidationError('Title and content are required');
+        if (!formData.title || !formData.content || !formData.category) {
+            setValidationError('Title, content, and category are required');
             return;
         }
         setValidationError(null);
@@ -92,10 +92,14 @@ const CreatePost = () => {
                         required
                         id='title'
                         className='flex-1'
+                        value={formData.title}
                         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     />
-                    <Select onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-                        <option>Select a category</option>
+                    <Select
+                        required
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    >
+                        <option value=''>Select a category</option>
                         <option value='startupstories'>Startup Stories</option>
                         <option value='technologies'>New Technologies</option>
                         <option value='research'>New Research</option>
@@ -112,7 +116,7 @@ const CreatePost = () => {
                         size='sm'
                         outline
                         onClick={handleUploadImage}
-                        disabled={imageUploadProgress}
+                        disabled={!!imageUploadProgress}
                     >
                         {imageUploadProgress ? (
                             <div className='w-16 h-16'>
@@ -139,6 +143,9 @@ const CreatePost = () => {
                     placeholder='Write something...'
                     className='h-72 mb-12'
                     required
+                    id="content"
+                    name="content"
+                    value={formData.content}
                     onChange={(value) => setFormData({ ...formData, content: value })}
                 />
                 <Button type='submit'>Publish</Button>

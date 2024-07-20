@@ -7,7 +7,9 @@ import { app } from '../Firebase'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const Updatepost = () => {
+    const { currentUser } = useSelector(state => state.user)
     const { postId } = useParams();
     const navigate = useNavigate();
     const [file, setFile] = useState(null)
@@ -20,7 +22,7 @@ const Updatepost = () => {
     useEffect(() => {
         try {
             const fetchPost = async () => {
-                const res = await fetch('/api/post/getposts?postId=${postId}')
+                const res = await fetch(`/api/post/getpost?postId=${postId}`)
                 const data = await res.json();
                 if (!res.ok) {
                     console.log(data.message);
@@ -32,6 +34,7 @@ const Updatepost = () => {
                     setFormData(data.post[0]);
                 }
             }
+            fetchPost();
         } catch (error) {
             console.log(error)
         }
@@ -77,8 +80,8 @@ const Updatepost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('/api/post/create', {
-                method: "POST",
+            const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+                method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -101,10 +104,10 @@ const Updatepost = () => {
 
     return (
         <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-            <h1 className='text-center text-3xl my-7 font-semibold'>Create a Post</h1>
+            <h1 className='text-center text-3xl my-7 font-semibold'>Update a Post</h1>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-                    <TextInput type='text' placeholder='Title' required id='title' className='flex-1' onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
+                    <TextInput type='text' placeholder='Title' required id='title' className='flex-1' onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} />
                     <Select onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
                         <option >Select a category</option>
                         <option value='startupstories'>Startup Stories </option>
@@ -135,8 +138,8 @@ const Updatepost = () => {
                 {
                     formData.image && <img src={formData.image} alt='upload' className='w-full h-72 object-cover' />
                 }
-                <ReactQuill theme="snow" placeholder='Write something...' className='h-72 mb-12' required onChange={(value) => { setFormData({ ...formData, content: value }) }} />
-                <Button type='submit'>Publish</Button>
+                <ReactQuill theme="snow" id="content" name="content" placeholder='Write something...' className='h-72 mb-12' required value={formData.content} onChange={(value) => { setFormData({ ...formData, content: value }) }} />
+                <Button type='submit'>Update</Button>
                 {
                     publishError && <Alert color='failure' className='text-red-500'>{publishError}</Alert>
                 }
