@@ -70,13 +70,16 @@ const CommentSection = () => {
         )}
       {
         currentUser && (
-          <form className='border border-teal-500 rounded-md p-3'>
+          <form onSubmit={handleSubmit} className='border border-teal-500 rounded-md p-3'>
             <Textarea
               placeholder='Add a comment...'
               rows='3'
-              maxLength='200' />
+              maxLength='200' 
+              onchange={(e)=>setComment(e.target.value)}
+              value={comment}
+              />
             <div className='flex justify-between items-center mt-5'>
-              <p className='text-gray-500 text-xs'>characters remaining</p>
+              <p className='text-gray-500 text-xs'>{200 - comment.length} characters remaining</p>
               <Button outline gradientDuoTone='purpleToBlue' type='submit'>
                 Submit
               </Button>
