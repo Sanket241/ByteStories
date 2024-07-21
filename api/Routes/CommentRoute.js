@@ -1,16 +1,14 @@
 import express from 'express';
-const router = express.Router();
 import { verifyToken } from '../Utills/verifyUser.js';
+import { createComment, deleteComment, editComment, getPostComments, getcomments, likeComment, } from '../Controllers/CommentController.js';
 
-import { createComment, getPostComments, likeComment, editComment, deleteComment, getcomments } from '../Controllers/CommentController.js';
+const router = express.Router();
 
 router.post('/create', verifyToken, createComment);
-router.get('/getcomments', getcomments);
-router.get('/:postId', getPostComments);
-router.put('/like/:commentId', verifyToken, likeComment);
-router.put('/edit/:commentId', verifyToken, editComment);
-router.delete('/delete/:commentId', verifyToken, deleteComment);
-
-
+router.get('/getPostComments/:postId', getPostComments);
+router.put('/likeComment/:commentId', verifyToken, likeComment);
+router.put('/editComment/:commentId', verifyToken, editComment);
+router.delete('/deleteComment/:commentId', verifyToken, deleteComment);
+router.get('/getcomments', verifyToken, getcomments);
 
 export default router;
