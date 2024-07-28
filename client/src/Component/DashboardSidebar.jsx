@@ -60,6 +60,13 @@ const DashboardSidebar = () => {
             </Link>
           )}
             {currentUser.isAdmin && (
+            <Link to='/dashboard?tab=dash'>
+              <Sidebar.Item active={tab === 'dash'} icon={HiOutlineUserGroup} labelColor='dark' as='div' >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
+           {currentUser.isAdmin && (
             <Link to='/dashboard?tab=users'>
               <Sidebar.Item active={tab === 'users'} icon={HiOutlineUserGroup} labelColor='dark' as='div' >
                 Users
