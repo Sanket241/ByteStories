@@ -8,8 +8,11 @@ import authRouter from './Routes/AuthRoute.js';
 import userRouter from './Routes/UserRoute.js';
 import postRouter from './Routes/PostRoute.js';
 import commentRouter from './Routes/CommentRoute.js';
+import path from 'path';
 import cors from 'cors';
 const port = process.env.PORT || 3000;
+
+const __dirname = path.resolve();
 
 
 app.use(express.json());
@@ -20,6 +23,15 @@ app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 app.use('/api/comment', commentRouter);
 
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
+
+
+
 app.use((err, req, res, next)=>{
     const StatusCode = err.StatusCode || 500;
     const message = err.message || 'Internal Server Error';
@@ -29,6 +41,8 @@ app.use((err, req, res, next)=>{
         message,
     });
 })
+
+
 
 const start=async()=>{
 try {
