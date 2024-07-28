@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { TextInput, Select, FileInput, Button, Alert } from 'flowbite-react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../Firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -138,15 +136,14 @@ const CreatePost = () => {
                         className='w-full h-72 object-cover'
                     />
                 )}
-                <ReactQuill
-                    theme='snow'
+                <textarea
+                    className='h-72 mb-12 p-3 border border-gray-300 rounded'
                     placeholder='Write something...'
-                    className='h-72 mb-12'
                     required
                     id="content"
                     name="content"
                     value={formData.content}
-                    onChange={(value) => setFormData({ ...formData, content: value })}
+                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 />
                 <Button type='submit'>Publish</Button>
                 {publishError && (
