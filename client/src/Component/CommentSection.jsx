@@ -98,7 +98,7 @@ const CommentSection = ({ postId }) => {
 
   const handleDelete = async (commentId) => {
     try {
-      const res = await fetch(`/api/comment/delete/${commentId}`, {
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
         method: 'DELETE',
       });
       if (res.ok) {
