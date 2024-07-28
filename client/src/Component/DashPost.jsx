@@ -91,7 +91,7 @@ const DashPost = () => {
             <Table.Body className='divide-y'>
               {userPost.map((post) => (
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={post._id}>
-                  <TableCell>{new Date(post.updateAt).toLocaleDateString()}</TableCell>
+                 <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <Link to={`/post/${post.slug}`}>
                       <img
