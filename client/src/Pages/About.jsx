@@ -33,7 +33,7 @@ const About = () => {
         <p className="mb-6 text-lg text-gray-700 text-center">P.S. Don't forget to bring snacks. Writing is hard work, and snacks make everything better! 🍩📝</p>
 
         <h2 className="text-2xl font-bold text-gray-700 mt-6 mb-4">Get in Touch: Let's Chat!</h2>
-        <p className="text-lg text-gray-700">Got questions, ideas, or just want to say hello? We'd love to hear from you! Drop us a line at <a href="mailto:hello@bytestories.com" className="text-blue-600 underline">hello@bytestories.com</a>. Let the fun begin!</p>
+        <p className="text-lg text-gray-700">Got questions, ideas, or just want to say hello? We'd love to hear from you! Drop us a line at <a href="mailto:hello@bytestories.com" className="text-blue-600 underline">sanketsharma241@gmail.com</a>. Let the fun begin!</p>
       </div>
     </div>
   
