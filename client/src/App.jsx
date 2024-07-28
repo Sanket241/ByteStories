@@ -22,7 +22,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-      <ScrollTotop/>
+        <ScrollTotop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,14 +36,14 @@ const App = () => {
           <Route path="/post/:postSlug" element={<Postpage />} />
 
           <Route element={<PrivateRoute />} >
-          <Route path="/dashboard" element={<Dashboards />} />
-          
+            <Route path="/dashboard" element={<Dashboards />} />
+
           </Route>
 
           <Route element={<AdminPrivateRoute />} >
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/update-post/:postId" element={<Updatepost />} />
-          
+            <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/update-post/:postId" element={<Updatepost />} />
+
           </Route>
 
           <Route path="/*" element={<Error />} />

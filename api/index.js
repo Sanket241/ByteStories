@@ -1,5 +1,4 @@
 import express from 'express';
-const app = express();
 import dotenv from 'dotenv';
 dotenv.config();
 import Mongodb from './db/Conn.js';
@@ -9,15 +8,14 @@ import userRouter from './Routes/UserRoute.js';
 import postRouter from './Routes/PostRoute.js';
 import commentRouter from './Routes/CommentRoute.js';
 import path from 'path';
-import cors from 'cors';
 const port = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 
+const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);

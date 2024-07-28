@@ -13,7 +13,7 @@ const CallToAction = () => {
                 Checkout these resources with 100 JavaScript Projects
             </p>
             <Button gradientDuoTone='purpleToPink' className='rounded-tl-xl rounded-bl-none'>
-                <a href="https://github.com/Sanket241" target='_blank' rel='noopener noreferrer'>
+                <a to="https://github.com/Sanket241" target='_blank' rel='noopener noreferrer'>
                     100 JavaScript Projects
                 </a>
             </Button>
