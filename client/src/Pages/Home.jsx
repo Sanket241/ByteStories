@@ -17,9 +17,12 @@ export default function Home() {
   return (
     <div>
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto '>
-        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to ByteStrories</h1>
+        <h1 className='text-3xl font-bold lg:text-6xl'>Welcome to
+          <span className='text-gray-500' > Byte</span>
+          <span className='text-gray-700'>Stories</span>
+          </h1>
         <p className='text-gray-500 text-xs sm:text-sm'>
-        Discover a variety of articles and tutorials on web development, software engineering, and programming languages. Whether you're a beginner or an expert, find valuable insights and stay updated with the latest trends!
+          Discover a variety of articles and tutorials on web development, software engineering, and programming languages. Whether you're a beginner or an expert, find valuable insights and stay updated with the latest trends!
         </p>
         <Link
           to='/search'
