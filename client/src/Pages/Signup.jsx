@@ -74,7 +74,7 @@ const Signup = () => {
               </div>
               <div >
                 <Label value="Your Password" />
-                <TextInput type="text" placeholder='Password' id="passsword" name="password" value={user.password} onChange={handleChange} />
+                <TextInput type="password" placeholder='Password' id="passsword" name="password" value={user.password} onChange={handleChange} />
               </div>
               <Button>Sign up with Google</Button>
               <Button type="submit" disabled={loading} >
