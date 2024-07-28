@@ -28,6 +28,48 @@ Ready to embark on an unforgettable journey with ByteStories? Grab your pen, fle
 
 *P.S. Don't forget to bring snacks. Writing is hard work, and snacks make everything better! 🍩📝*
 
+
+## Installation
+
+1.Clone the repository:
+```shell
+$ git clone https://github.com/Sanket241/ByteStories.git
+```
+2.Navigate to the project directory:
+```shell
+$ cd ByteStories
+```
+3.Install dependencies for both backend and frontend:
+```shell
+# Install server dependencies
+$ npm install
+
+# Install client dependencies
+$ cd client
+$ npm install
+```
+4.Set up environment variables:Create a .env file in the root directory and provide the following variables:
+```shell
+$ PORT=5000
+$ MONGODB_URI=your_mongodb_uri
+$ JWT_SECRET=your_jwt_secret
+```
+5.Run the application:
+```shell
+# Run backend server
+$ npm run server
+
+# Run frontend server
+$ cd client
+$ npm start
+```
+
+
 ## Get in Touch: Let's Chat!
 
 Got questions, ideas, or just want to say hello? We'd love to hear from you! Drop us a line at [sanketsharma241@gmail.com](mailto:sanketsharma241@gmail.com). Let the fun begin!
+
+
+## Contributing
+
+Contributions are welcome❤️! Please fork the repository and create a pull request with your changes.
